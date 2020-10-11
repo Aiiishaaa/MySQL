@@ -1,0 +1,82 @@
+1. Afficher la liste des étudiants triés par ordre croissant de date de naissance.
+SELECT *
+FROM etudiant
+ORDER BY date_naissance ASC
+
+
+2. Afficher tous les étudiants inscrits à M1 et tous les étudiants inscrits à M2.
+SELECT *
+FROM etudiant
+WHERE niveau = 'M1' OR niveau = 'M2'
+
+
+3. Afficher les matricules des étudiants qui ont passé l'examen du cours 002.
+SELECT matricule
+FROM examen
+WHERE `code` = '002' AND note >= 10
+
+
+4. Afficher les matricules de tous les étudiants qui ont passé l'examen du cours 001 et de tous les étudiants qui ont passé l'examen du cours 002.
+SELECT matricule
+FROM examen
+WHERE (`code` = '002' OR `code` = '001') AND note >= 10
+
+
+5. Afficher le matricule, code, note /20 et note /40 de tous les examens classés par ordre croissant de matricule et de code.
+SELECT matricule, `code`, note AS `note/20`, note *2 AS `note/40`
+FROM examen
+ORDER BY matricule, `code` ASC
+
+
+6. Trouver la moyenne de notes de cours 002.
+SELECT AVG(note)
+FROM examen
+WHERE code = 002
+
+
+7. Compter les examens passés par un étudiant (exemple avec matricule 'e001')
+SELECT COUNT(*)
+FROM examen
+WHERE matricule = 'e001'
+
+
+8. Compter le nombre d'étudiants qui ont passé l'examen du cours 002.
+SELECT COUNT(*)
+FROM examen
+WHERE `code` = 002 AND note >= 10
+
+
+9. Calculer la moyenne des notes d'un étudiant (exemple avec matricule 'e001').
+SELECT AVG(note)
+FROM examen
+WHERE matricule = 'e001'
+
+
+10.Compter les examens passés par chaque étudiant.
+SELECT etudiant.nom, COUNT(*)
+FROM examen, etudiant
+WHERE etudiant.matricule = examen.matricule AND note >= 10
+GROUP BY etudiant.matricule
+
+
+11.Calculer la moyenne des notes pour chaque étudiant.
+SELECT etudiant.nom, AVG(note)
+FROM examen, etudiant
+WHERE examen.matricule = etudiant.matricule
+GROUP BY etudiant.nom
+
+
+12.Même question, mais afficher seulement les étudiants (et leurs moyennes) dont la moyenne est >= 15.
+SELECT etudiant.nom, AVG(note) AS moy
+FROM examen, etudiant
+WHERE examen.matricule = etudiant.matricule 
+GROUP BY etudiant.matricule
+HAVING moy >= 15
+
+
+13.Trouver la moyenne de notes de chaque cours.
+SELECT cours.nom_cours, AVG(note)
+FROM examen, cours
+WHERE cours.`code`= examen.`code`
+GROUP BY cours.`code`
+

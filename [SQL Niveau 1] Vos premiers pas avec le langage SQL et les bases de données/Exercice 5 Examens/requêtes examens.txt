@@ -1,0 +1,276 @@
+1. La liste des stagiaires ;
+SELECT * 
+FROM stagiaires
+
+
+2. La liste des examens ;
+SELECT * 
+FROM examens
+
+
+3. Les numéros de tous les stagiaires ;
+SELECT Tel 
+FROM stagiaires
+
+
+4. Les numéros des examens munis de la date de réalisation ;
+SELECT NumE, Date 
+FROM examens
+
+
+
+5. La liste des stagiaires triée par nom dans un ordre décroissant ;
+SELECT nomS 
+FROM stagiaires
+ORDER BY nomS DESC
+
+
+6. La liste des examens réalisés dans les salles 'A2' ou 'A3';
+SELECT *
+FROM examens
+WHERE salle = 'A2' OR salle = 'A3'
+
+
+
+7. La liste des examens pratiques ;
+SELECT * 
+FROM examens
+WHERE TypeE = 'P'
+
+
+
+8. La liste précédente triée par date de passation de l'examen ;
+SELECT * FROM examens
+WHERE TypeE = 'P'
+ORDER BY Date
+
+
+
+
+9. La liste des examens triée par salle dans un ordre croissant et par date dans un ordre décroissant ;
+SELECT * 
+FROM examens
+ORDER BY salle ASC, date DESC
+
+
+
+
+10. Les numéros et les notes des examens passé par le stagiaire 'S01'; 
+SELECT NumE, Note
+FROM passerexamen
+WHERE NumS = 'S01'
+
+
+
+
+
+11. Les numéros et les notes des examens passé par le stagiaire 'S01' et dont la note est supérieure ou égale à 12 ;
+
+SELECT NumE, Note
+FROM passerexamen
+WHERE NumS = 'S01' AND Note >= 15
+
+
+
+
+
+12. Les stagiaires dont le nom contient la lettre 'e' ;
+SELECT * 
+FROM stagiaires
+WHERE nomS LIKE '%e%'
+
+
+
+
+13. Les prénoms des stagiaires dont le prénom se termine par la lettre 's' ;
+SELECT prenomS 
+FROM stagiaires
+WHERE prenomS LIKE '%s
+
+
+
+14. Les prénoms des stagiaires dont le prénom se termine par la lettre 's' ou 'd' ;
+
+SELECT prenomS 
+FROM stagiaires
+WHERE prenomS LIKE '%s' OR prenomS LIKE '%d'
+
+
+
+15. Les noms et prénoms des stagiaires dont le nom se termine par la lettre 'e' et le prénom par 's' ;
+SELECT nomS, prenomS 
+FROM stagiaires
+WHERE nomS LIKE '%e' AND prenomS LIKE '%s'
+
+
+
+
+
+16. Les noms des stagiaires dont la deuxième lettre est 'a' ;
+SELECT nomS 
+FROM stagiaires
+WHERE SUBSTR(nomS, 2, 1) = 'a'
+
+
+
+
+
+17. Les noms des stagiaires dont la deuxième lettre n'est pas 'a' ;
+ SELECT nomS 
+FROM stagiaires
+WHERE SUBSTR(nomS, 2, 1) != 'a'
+
+
+
+
+
+18. La liste des examens pratiques réalisés dans une salle commençant par la lettre 'A';
+ SELECT *
+FROM examens
+WHERE TypeE = 'P' AND salle LIKE 'A%'
+
+
+
+
+
+19. Toutes les salles dont on a réalisé au moins un examen ;
+SELECT salle
+FROM examens
+
+
+
+
+
+20. La liste précédente mais sans doublons ;
+SELECT salle
+FROM examens
+GROUP BY salle 
+
+
+
+
+
+
+21. Pour chaque examen, la meilleure et la plus mauvaise note ;
+SELECT NumE, MIN(Note), MAX(Note)
+FROM passerexamen
+GROUP BY NumE
+
+
+
+
+22. Pour l'examen 'E05', la meilleure et la plus mauvaise note ;
+SELECT MIN(Note), MAX(Note)
+FROM passerexamen
+WHERE NumE = 'E05'
+
+
+
+
+
+23. Pour chaque examen, l'écart entre la meilleure et la plus mauvaise note ;
+ SELECT NumE, MAX(Note) - MIN(Note)
+FROM passerexamen
+GROUP BY NumE
+
+
+
+24. Le nombre d'examens pratiques (typeE = « P »);
+SELECT COUNT(*)
+FROM examens
+WHERE TypeE = 'P'
+
+
+
+25. La date du premier examen effectué ;
+SELECT MIN(Date)
+FROM examens
+
+
+
+
+26. Le nombre de stagiaires dont le nom contient 'r' ou 's' ;
+SELECT nomS
+FROM stagiaires
+WHERE nomS LIKE '%r%' OR nomS LIKE '%s%'
+
+
+
+
+27. Pour chaque stagiaires la meilleure note dans tous les examens ;
+ SELECT NumS, MAX(Note)
+FROM passerexamen
+GROUP BY NumS
+
+
+
+28. Pour chaque date enregistrée dans la base de données le nombre d'examens ;
+SELECT DATE(`date`), COUNT(*)
+FROM examens
+GROUP BY DATE(`date`)
+
+
+
+
+
+29. Pour chaque salle le nombre d'examens réalisés ;
+SELECT salle, COUNT(*)
+FROM examens
+GROUP BY salle
+
+
+
+
+30. Le nombre d'examens réalisés dans la salle ‘A1’;
+SELECT salle, COUNT(*)
+FROM examens
+WHERE salle = 'A1'
+GROUP BY salle
+
+
+
+
+31. Toutes les salles dans lesquelles on a effectué au moins deux examens ;
+SELECT salle
+FROM examens
+GROUP BY salle 
+HAVING COUNT(*) >= 2
+
+
+
+
+32. Toutes les salles dans lesquelles on a effectué exactement 3 examens ;
+SELECT salle
+FROM examens
+GROUP BY salle 
+HAVING COUNT(*) = 3
+
+
+
+
+
+33. Le nombre d'examens réalisés dans les salles commençant par la lettre 'A' ;
+SELECT COUNT(*)
+FROM examens
+WHERE salle LIKE 'A%'
+
+
+
+
+
+34. Pour chaque salle commençant par la lettre 'A', le nombre d'examens ;
+SELECT salle, COUNT(*)
+FROM examens
+WHERE salle LIKE 'A%'
+GROUP BY salle
+
+
+
+
+
+35. Les salles qui commencent par 'A' et dans lesquelles on a effectué deux examens.
+SELECT salle
+FROM examens
+WHERE salle LIKE 'A%'
+GROUP BY salle
+HAVING COUNT(*) >= 2
