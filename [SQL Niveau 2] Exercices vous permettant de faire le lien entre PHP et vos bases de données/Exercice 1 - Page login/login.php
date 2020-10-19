@@ -36,17 +36,17 @@ if (isset($_POST["submit"])) {
 
 <body>
     <form class="form__group" action="login.php" method="post">
-        <p class="form__group">
+        <div class="form__group">
             <label for="login" class="form__label">Login :</label>
             <input type="text" name="login" id="login" class="form__input">
-        </p>
-        <p class="form__group">
+        </div>
+        <div class="form__group">
             <label for="password" class="form__label">Mot de passe :</label>
             <input type="text" name="password" id="password" class="form__input">
-        </p>
-        <p class="form__group">
+        </div>
+        <div class="form__group">
             <input type="submit" value="Envoyer" name="submit" class="form__input">
-        </p>
+        </div>
     </form>
 </body>
 
