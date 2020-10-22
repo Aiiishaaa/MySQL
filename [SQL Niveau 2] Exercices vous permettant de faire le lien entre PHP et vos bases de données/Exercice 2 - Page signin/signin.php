@@ -51,45 +51,70 @@ $isValidinfo = !empty($info);
 
 if (isset($_POST['confirm'])) {
     $condition = $_POST['condition'];
+
     if (empty($condition)){
         echo '<script type="text/javascript">';
         echo 'alert("Vous devez accepter les conditions !")'; 
         echo '</script>';
     }
+
     else{ 
         if( $isValidfirstName && $isValidlastName && $isValidemail && $isValidpwd && $isValidinfo && $isValidconfirmpwd ){ 
-                    if ($password === $confirmpassword ) {
-                        $firstName = $_POST['firstName'];
-                        $lastName = $_POST['lastName'];
-                        $email = $_POST['email'];
-                        $password = $_POST['password'];
-                        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            if (!preg_match ( "/^[a-zA-Z0-9_-]{8,40}$/i", $password)){
+                echo '<script type="text/javascript">';
+                echo 'alert(" Le mot de passe doit contenir au moins 6 caractéres et ne conteint pas despaces")';
+                echo  '</script>'; 
+            }
 
-                        $info = $_POST['info'];
-
-                        $base = new PDO('mysql:host=localhost;dbname=connection;charset=utf8', 'root', '');
-                        $sql = "INSERT INTO users(firstName,lastName,password,email,info)VALUES('$firstName','$lastName','$passwordHash','$email','$info')"; 
-                        $base -> query($sql);
-                    } 
-                    else {
+           else if($password != $confirmpassword ) {
                                 echo '<script type="text/javascript">';
                                 echo 'alert("les mots de passe saisis ne sont pas identiques")';
-                                echo  '</script>';
-                        
+                                echo  '</script>';         
+            } 
+            
+            else {
+
+              
+                $base = new PDO('mysql:host=localhost;dbname=users;charset=utf8', 'root','');
+
+                $queryReq = $base->prepare("SELECT email FROM users WHERE email = :email");
+                $queryReq->bindParam(':email', $email);
+                $queryReq->execute();
+                $data = $queryReq->fetch();
+
+
+                    if (!$data){
+                            $firstName = $_POST['firstName'];
+                            $lastName = $_POST['lastName'];
+                            $email = $_POST['email'];
+                            $password = $_POST['password'];
+                            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+                            $info = $_POST['info'];
+
+                            $base = new PDO('mysql:host=localhost;dbname=users;charset=utf8', 'root', '');
+                            $sql = "INSERT INTO utilisateurs(nom,prenom,password,email,statut)VALUES('$firstName','$lastName','$passwordHash','$email','$info')"; 
+                            $base -> query($sql);
+                    } 
+                    else 
+                    {
+                            echo '<script type="text/javascript">';
+                            echo 'alert("Cet utilisateur existe déja dans la base de données! ")';
+                            echo  '</script>';
+                    }    
+            }
+
+        }
+                    else{
+                    echo '<script type="text/javascript">';
+                    echo 'alert("Tous les champs sont obligatoires !")';
+                    echo  '</script>';
                     }
-        }
-        else{
-        echo '<script type="text/javascript">';
-        echo 'alert("Tous les champs sont obligatoires !")';
-        echo  '</script>';
-        }
+                
     }
 }
-    
-
-
+   
 ?>
-
  
  <form action="signin.php" method="post" class="form-group">
  <h2> S'inscrire </h2> <br>
