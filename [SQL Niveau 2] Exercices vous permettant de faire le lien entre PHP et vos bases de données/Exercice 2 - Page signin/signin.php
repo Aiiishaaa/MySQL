@@ -62,26 +62,24 @@ if (isset($_POST['confirm'])) {
         if( $isValidfirstName && $isValidlastName && $isValidemail && $isValidpwd && $isValidinfo && $isValidconfirmpwd ){ 
             if (!preg_match ( "/^[a-zA-Z0-9_-]{8,40}$/i", $password)){
                 echo '<script type="text/javascript">';
-                echo 'alert(" Le mot de passe doit contenir au moins 6 caractéres et ne conteint pas despaces")';
+                echo 'alert("Le mot de passe doit contenir au moins 8 caractéres sans espaces")';
                 echo  '</script>'; 
             }
 
            else if($password != $confirmpassword ) {
-                                echo '<script type="text/javascript">';
-                                echo 'alert("les mots de passe saisis ne sont pas identiques")';
-                                echo  '</script>';         
+                echo '<script type="text/javascript">';
+                echo 'alert("Les mots de passe saisis ne sont pas identiques")';
+                echo '</script>';         
             } 
             
             else {
 
-              
-                $base = new PDO('mysql:host=localhost;dbname=users;charset=utf8', 'root','');
+                $base = new PDO('mysql:host=localhost;dbname=connection;charset=utf8', 'root','');
 
                 $queryReq = $base->prepare("SELECT email FROM users WHERE email = :email");
                 $queryReq->bindParam(':email', $email);
                 $queryReq->execute();
                 $data = $queryReq->fetch();
-
 
                     if (!$data){
                             $firstName = $_POST['firstName'];
@@ -92,8 +90,8 @@ if (isset($_POST['confirm'])) {
 
                             $info = $_POST['info'];
 
-                            $base = new PDO('mysql:host=localhost;dbname=users;charset=utf8', 'root', '');
-                            $sql = "INSERT INTO utilisateurs(nom,prenom,password,email,statut)VALUES('$firstName','$lastName','$passwordHash','$email','$info')"; 
+                            $base = new PDO('mysql:host=localhost;dbname=connection;charset=utf8', 'root', '');
+                            $sql = "INSERT INTO users(firstName,lastName,password,email,info)VALUES('$firstName','$lastName','$passwordHash','$email','$info')"; 
                             $base -> query($sql);
                     } 
                     else 
