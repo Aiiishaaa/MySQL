@@ -20,21 +20,51 @@
                         $_SESSION["login"] = $login;
                         header("location: home.php");
                     }
-                    else
-                    {
-                        echo '<script type="text/javascript">';
-                        echo 'alert ("Votre email ou mot de passe incorrect!")';
-                        echo '</script>';
-                    }
-                        $bdd = new PDO('mysql:host=localhost;dbname=connection;charset=utf8', 'root', '');
-                        $login = $_POST['login'];
-                        $password = $_POST['password'];
-                        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-                        $sql = "INSERT INTO connexions(login,password)VALUES('$login','$passwordHash')";
-                        $bdd ->query($sql);
 
-                    
+                    else 
+                    {
+                            session_start();
+                            if ($resultat || password_verify($password, $resultat['password']))
+                            {
+                                $_SESSION["login"] = $login;
+                                header("location: home.php");
+                            }
+
+                            else
+                            {
+
+                                if(!isset($_SESSION['nombre']))
+                                    {
+                                    // Initialisation de la variable
+                                    $_SESSION['nombre'] = 0;
+                                    // Blocage pendant 15 min
+                                    $_SESSION['timestamp_limite'] = time() + 60*15;  
+                                    }
+
+                                if($_SESSION['nombre'] <= 4)
+                                   {
+                                    $_SESSION['nombre']++;
+                                   }
+                                // Si on a dépassé les 5 tentatives
+                                else
+                                {
+                                    // Si le cookie marqueur n'existe pas on le crée
+                                    
+                                            if(!isset($_COOKIE['marqueur']))
+                                            {
+                                                $timestamp_marque = time() + 60; // On le marque pendant une minute
+                                                            $cookie_vie = time() + 606024; // Durée de vie de 24 heures pour le décalage horaire
+                                                setcookie("marqueur", $timestamp_marque, $cookie_vie);
+                                            }
+                                    // on quitte le script
+                                    exit();
+                                }
+
+                            }
+
+                    }
                 }
+
             else
                 {
                     echo '<script type="text/javascript">';
