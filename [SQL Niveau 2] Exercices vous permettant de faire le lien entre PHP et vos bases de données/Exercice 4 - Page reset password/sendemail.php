@@ -1,6 +1,14 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 error_reporting(E_ALL ^ E_DEPRECATED);
 require_once 'PHPMailerAutoload.php';
+
+
+
 
 /*******************
 $to : adresse email du destinataire (ex : "kevindu93@gmail.com")
