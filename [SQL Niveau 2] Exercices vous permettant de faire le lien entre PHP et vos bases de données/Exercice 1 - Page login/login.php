@@ -31,8 +31,20 @@
            <meta name="viewport" content="width=device-width, initial-scale=1.0">
            <title> Page Login </title>
        </head>
+       <style>
+        fieldset {
+            margin-right: 70%;
+            margin-left: 20%;
+        }
+        div {
+            margin:20px;
+        }
+      </style>
        
        <body>
+       <fieldset>
+       <legend >Connexion :</legend>
+       
            <form class="form__group" action="login.php" method="post">
        
                <div class="form__group">
@@ -50,6 +62,7 @@
                </div>
        
            </form>
+       </fieldset>
        </body>
        
        </html>

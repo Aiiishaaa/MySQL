@@ -91,11 +91,21 @@
             margin-left: 40%;
             margin-top: 10%;
         }
+
+        fieldset {
+            margin-right: 70%;
+            margin-left: 20%;
+        }
+        div {
+            margin:20px;
+        }
+
     </style>
     
 </head>
 <body>
-   
+    <fieldset>
+    <legend >Connexion :</legend>
     <form method="post" action="login.php">
     <h3>Inscription</h3>
         <div class="form-group">
@@ -108,6 +118,8 @@
         </div>
         <button name="submit">Valider</button>
     </form>
+    </fieldset>
+       
     
 </body>
 </html>

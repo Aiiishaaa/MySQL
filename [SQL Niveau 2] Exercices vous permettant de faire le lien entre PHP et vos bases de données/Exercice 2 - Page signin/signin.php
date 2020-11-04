@@ -22,6 +22,13 @@
         margin-top: 50px;
         margin-left: 300px;
     }
+    fieldset {
+            margin-right: 70%;
+            margin-left: 20%;
+        }
+        div {
+            margin:20px;
+        }
     </style>
 </head>
 <body>
@@ -113,7 +120,10 @@ if (isset($_POST['confirm'])) {
 }
    
 ?>
- 
+
+     
+       <fieldset>
+       <legend >Connexion :</legend>
  <form action="signin.php" method="post" class="form-group">
  <h2> S'inscrire </h2> <br>
     <div class="form-group">
@@ -149,5 +159,6 @@ if (isset($_POST['confirm'])) {
     <button name="confirm"> Valider</button>  
     </div>  
     </form>
+       </fieldset>
 </body>
 </html>
